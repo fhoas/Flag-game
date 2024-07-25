@@ -33,7 +33,7 @@ const Results = () => {
         </div>
       )}
       <button
-        className="bg-[#8F00FF] hover:bg-[#7600CC] text-white font-bold py-2 px-4 rounded mt-2 border-[1px] border-[#00000027]"
+        className="bg-[#8F00FF] hover:bg-[#7600CC] text-white font-bold py-2 px-4 rounded mt-2 border-[1px] border-[#00000027] shadow-lg hover:shadow-xl transition-shadow duration-300"
         onClick={() => handleClick()}
       >
         Back to menu

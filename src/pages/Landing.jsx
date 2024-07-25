@@ -9,9 +9,11 @@ const Landing = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [animate, setAnimate] = useState(false);
+  const [buttonClass, setButtonClass] = useState("");
   const { data } = useSelector((state) => state.data);
 
   function handleClick() {
+    setButtonClass("fade-out");
     setAnimate(true);
     setTimeout(() => {
       navigate("/questions");
@@ -30,10 +32,12 @@ const Landing = () => {
       onEntered={() => setAnimate(false)}
     >
       <div className="flex flex-col justify-center items-center min-h-screen">
-        <h1 className="text-5xl font-bold mb-10 text-white">FLAG GAME</h1>
+        <h1 className={`text-5xl font-bold mb-10 text-white ${buttonClass}`}>
+          FLAG GAME
+        </h1>
         <button
           onClick={handleClick}
-          className="bg-[#8F00FF] hover:bg-[#7600CC] text-white font-bold py-2 px-4 rounded border-[1px] border-[#00000027]"
+          className={`bg-[#8F00FF] hover:bg-[#7600CC] text-white font-bold py-2 px-4 rounded border-[1px] border-[#00000027] ${buttonClass} shadow-lg hover:shadow-xl transition-shadow duration-300`}
         >
           PLAY!
         </button>

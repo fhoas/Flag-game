@@ -5,18 +5,23 @@
 body {
     min-height      : 100vh;
     background-color: #8f00ff;
+    user-select     : none;
 }
 
 #root {
     min-height: 100vh;
 }
 
-
 .background-enter-active {
-    background-color: #cf9fff;
+    background-color: #c77dff;
     transition      : background-color 0.5s ease-in-out;
 }
 
 .flags {
     rotate: 12deg;
+}
+
+.fade-out {
+    opacity   : 0;
+    transition: opacity 500ms ease-out;
 }

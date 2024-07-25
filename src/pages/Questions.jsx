@@ -10,14 +10,15 @@ function Questions() {
   const { loading, data, error } = useSelector((state) => state.data);
   const randomItem = useSelector((state) => state.randomItem);
   const [randomItems, setRandomItems] = useState([]);
+  const [shuffledItems, setShuffledItems] = useState([]);
   const [questionCounter, setQuestionCounter] = useState(1);
   const [correctAnswerCounter, setCorrectAnswerCounter] = useState(0);
+  const [timer, setTimer] = useState(10);
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(fetchData());
   }, [dispatch]);
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (data.length > 0) {
@@ -28,7 +29,6 @@ function Questions() {
       const randomIndex = Math.floor(Math.random() * newDataWithId.length);
       const selectedItem = newDataWithId[randomIndex];
       dispatch(setRandomItem(selectedItem));
-
       let randomChoices = [];
       while (randomChoices.length < 3) {
         const randomChoice =
@@ -41,8 +41,36 @@ function Questions() {
         }
       }
       setRandomItems(randomChoices);
+      setShuffledItems(shuffleArray([selectedItem, ...randomChoices]));
     }
   }, [data, dispatch, questionCounter]);
+
+  useEffect(() => {
+    if (timer > 0) {
+      const timerId = setTimeout(() => {
+        setTimer(timer - 1);
+      }, 1000);
+      return () => clearTimeout(timerId);
+    } else {
+      handleTimeout();
+    }
+  }, [timer]);
+
+  useEffect(() => {
+    if (questionCounter > 10) {
+      dispatch(setResults(correctAnswerCounter));
+      navigate("/results");
+    }
+  }, [questionCounter, correctAnswerCounter, dispatch, navigate]);
+
+  const handleTimeout = () => {
+    if (questionCounter < 10) {
+      setQuestionCounter(questionCounter + 1);
+      setTimer(10);
+    } else {
+      setQuestionCounter(questionCounter + 1);
+    }
+  };
 
   function handleClick(answer) {
     if (answer === randomItem.name) {
@@ -50,40 +78,51 @@ function Questions() {
     }
     if (questionCounter < 10) {
       setQuestionCounter(questionCounter + 1);
+      setTimer(10);
     } else {
-      dispatch(setResults(correctAnswerCounter));
-      navigate("/results");
+      setQuestionCounter(questionCounter + 1);
     }
   }
 
+  const shuffleArray = (array) => {
+    return array.sort(() => Math.random() - 0.5);
+  };
+
   return (
-    <div className="flex flex-col justify-center items-center h-screen bg-[#CF9FFF] p-4">
-      {loading && <p className="text-white text-xl">Loading...</p>}
-      {error && <p className="text-red-500 text-xl">Error: {error}</p>}
-      {randomItem && (
-        <div className="flex flex-col justify-center items-center w-full max-w-md">
-          <div className="mb-4 text-center">
-            <p className="text-2xl font-semibold text-white">
-              Question: {questionCounter} / 10
-            </p>
-          </div>
-          <div className="text-9xl mb-6">{randomItem.emoji}</div>
-          <ul className="flex flex-col w-full gap-4">
-            {[randomItem, ...randomItems]
-              .sort(() => Math.random() - 0.5)
-              .map((item) => (
+    <>
+      <div className="fixed bg-[#8f00ff] w-full h-1">
+        <div
+          className="h-full bg-red-600"
+          style={{ width: `${(timer / 10) * 100}%` }}
+        ></div>
+      </div>
+      <div className="flex flex-col justify-center items-center h-screen bg-[#c77dff] p-4">
+        {loading && <p className="text-white text-xl">Loading...</p>}
+        {error && <p className="text-red-500 text-xl">Error: {error}</p>}
+        {randomItem && (
+          <div className="flex flex-col justify-center items-center w-full max-w-md">
+            <div className="mb-4 text-center">
+              <p className="text-2xl font-semibold text-white">
+                Question: {questionCounter} / 10
+              </p>
+              <p className="text-xl text-white">Time Remaining: {timer}s</p>
+            </div>
+            <div className="text-9xl mb-6">{randomItem.emoji}</div>
+            <ul className="flex flex-col w-full gap-4">
+              {shuffledItems.map((item) => (
                 <li
                   onClick={() => handleClick(item.name)}
-                  className="flex justify-center items-center bg-[#C77DFF] hover:bg-[#9D4EDD] text-white font-bold py-2 px-4 rounded cursor-pointer transition duration-300"
+                  className="flex justify-center items-center bg-[#8f00ff] hover:bg-[#5a189a] text-white font-bold py-2 px-4 rounded cursor-pointer transition duration-300"
                   key={item.id}
                 >
                   {item.name}
                 </li>
               ))}
-          </ul>
-        </div>
-      )}
-    </div>
+            </ul>
+          </div>
+        )}
+      </div>
+    </>
   );
 }
 
