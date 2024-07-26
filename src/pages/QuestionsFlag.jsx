@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchData } from "../redux/dataSlice";
 import { setRandomItem } from "../redux/randomItemSlice";
 import { setResults } from "../redux/resultsSlice";
 import { useNavigate } from "react-router-dom";
 
-function Questions() {
+function QuestionsFlag() {
   const dispatch = useDispatch();
   const { loading, data, error } = useSelector((state) => state.data);
   const randomItem = useSelector((state) => state.randomItem);
@@ -17,10 +16,6 @@ function Questions() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    dispatch(fetchData());
-  }, [dispatch]);
-
-  useEffect(() => {
     if (data.length > 0) {
       const newDataWithId = data.map((item, index) => ({
         ...item,
@@ -29,17 +24,21 @@ function Questions() {
       const randomIndex = Math.floor(Math.random() * newDataWithId.length);
       const selectedItem = newDataWithId[randomIndex];
       dispatch(setRandomItem(selectedItem));
+
+      const sameRegionChoices = newDataWithId.filter(
+        (item) =>
+          item.region === selectedItem.region && item.id !== selectedItem.id
+      );
+
       let randomChoices = [];
-      while (randomChoices.length < 3) {
-        const randomChoice =
-          newDataWithId[Math.floor(Math.random() * newDataWithId.length)];
-        if (
-          randomChoice.id !== selectedItem.id &&
-          !randomChoices.includes(randomChoice)
-        ) {
-          randomChoices.push(randomChoice);
-        }
+      while (randomChoices.length < 3 && sameRegionChoices.length > 0) {
+        const randomChoiceIndex = Math.floor(
+          Math.random() * sameRegionChoices.length
+        );
+        const randomChoice = sameRegionChoices.splice(randomChoiceIndex, 1)[0];
+        randomChoices.push(randomChoice);
       }
+
       setRandomItems(randomChoices);
       setShuffledItems(shuffleArray([selectedItem, ...randomChoices]));
     }
@@ -100,22 +99,27 @@ function Questions() {
         {loading && <p className="text-white text-xl">Loading...</p>}
         {error && <p className="text-red-500 text-xl">Error: {error}</p>}
         {randomItem && (
-          <div className="flex flex-col justify-center items-center w-full max-w-md">
-            <div className="mb-4 text-center">
+          <div className="flex flex-col justify-center items-center">
+            <div className="text-center">
               <p className="text-2xl font-semibold text-white">
-                Question: {questionCounter} / 10
+                Question: {questionCounter > 10 ? 10 : questionCounter} / 10
               </p>
               <p className="text-xl text-white">Time Remaining: {timer}s</p>
             </div>
-            <div className="text-9xl mb-6">{randomItem.emoji}</div>
-            <ul className="flex flex-col w-full gap-4">
+            <div className="text-5xl font-bold mb-8 mt-8 text-white">
+              {randomItem.name}
+            </div>
+            <ul className="flex justify-center items-center gap-4 flex-wrap w-[60%]">
               {shuffledItems.map((item) => (
                 <li
                   onClick={() => handleClick(item.name)}
-                  className="flex justify-center items-center bg-[#8f00ff] hover:bg-[#5a189a] text-white font-bold py-2 px-4 rounded cursor-pointer transition duration-300"
+                  className="flex justify-center items-center bg-[#8f00ff] hover:bg-[#5a189a] text-white font-bold py-2 px-4 rounded cursor-pointer transition duration-300 w-[45%] h-[175px] text-8xl"
                   key={item.id}
                 >
-                  {item.name}
+                  <img
+                    className="rounded h-auto w-[200px] max-h-[150px] p-2"
+                    src={item.flags.svg}
+                  />
                 </li>
               ))}
             </ul>
@@ -126,4 +130,4 @@ function Questions() {
   );
 }
 
-export default Questions;
+export default QuestionsFlag;

@@ -28,7 +28,11 @@ const Results = () => {
       {data && data.length > 0 && (
         <div className="flags text-[150px] fixed flex flex-wrap w-[300%] origin-top-left rotate-[12deg] opacity-25 z-[-1] animate-slide">
           {data.map((item, index) => (
-            <div key={index}>{item.emoji}</div>
+            <img
+              className="p-4 w-[300px] h-[200px]"
+              src={item.flags.png}
+              key={index}
+            />
           ))}
         </div>
       )}

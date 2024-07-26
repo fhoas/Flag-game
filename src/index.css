@@ -25,3 +25,42 @@ body {
     opacity   : 0;
     transition: opacity 500ms ease-out;
 }
+
+.fade-in {
+    opacity   : 0;
+    transition: opacity 500ms ease-in;
+}
+
+.fade-in.visible {
+    opacity: 1;
+}
+
+/* Add this to your global CSS or a dedicated CSS module */
+
+h1 {
+    position               : relative;
+    display                : inline-block;
+    background             : linear-gradient(to right, #030637, #3C0753, #FF0000);
+    -webkit-background-clip: text;
+    background-clip        : text;
+    color                  : transparent;
+}
+
+h1 span {
+    position: relative;
+    display : inline-block;
+}
+
+h1 span::before {
+    content : '';
+    position: absolute;
+    top     : 0;
+    left    : 0;
+    right   : 0;
+    bottom  : 0;
+    border  : 2px solid rgba(0, 0, 0, 0.5);
+    /* Adjust border color and opacity */
+    filter  : blur(2px);
+    /* Adjust blur intensity */
+    z-index : -1;
+}

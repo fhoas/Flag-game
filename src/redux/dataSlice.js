@@ -2,9 +2,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 export const fetchData = createAsyncThunk("data/fetchData", async () => {
-  const response = await fetch(
-    "https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/index.json"
-  );
+  const response = await fetch("https://restcountries.com/v2/all");
   const data = await response.json();
   return data;
 });

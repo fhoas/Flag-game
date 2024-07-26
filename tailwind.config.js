@@ -5,9 +5,9 @@ export default {
     extend: {
       keyframes: {
         slide: {
-          "0%": { transform: "translateX(1500px)" },
-          "50%": { transform: "translateX(-1400px)" },
-          "100%": { transform: "translateX(1400px)" },
+          "0%": { transform: "translateX(1700px)" },
+          "50%": { transform: "translateX(-1000px)" },
+          "100%": { transform: "translateX(1700px)" },
         },
       },
       animation: {
