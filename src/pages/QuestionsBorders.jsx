@@ -138,12 +138,12 @@ function QuestionsBorders() {
               <p className="text-xl text-white">Time Remaining: {timer}s</p>
             </div>
             <div className="w-full flex justify-center items-center flex-col gap-2 text-xl mb-8 mt-8 ">
-              <span className="text-4xl font-bold text-white">
+              <span className="text-xl font-bold text-white sm:text-2xl text-center">
                 Which country has border these countries?
               </span>
               {randomItem.borders && Array.isArray(randomItem.borders) ? (
                 randomItem.borders.length > 0 ? (
-                  <p className="text-white">
+                  <p className="text-white text-center text-sm md:text-sm">
                     {randomItem.borders
                       .map((code) => countriesMap[code])
                       .filter(Boolean)
@@ -161,7 +161,7 @@ function QuestionsBorders() {
               {shuffledItems.map((item) => (
                 <li
                   onClick={() => handleClick(item.name)}
-                  className="flex justify-center items-center bg-[#8f00ff] hover:bg-[#5a189a] text-white font-bold py-2 px-4 rounded cursor-pointer transition duration-300 w-[30%] text-xl"
+                  className="flex justify-center items-center bg-[#8f00ff] hover:bg-[#5a189a] text-white font-bold py-2 px-4 rounded cursor-pointer transition duration-300 w-[100%] sm:w-[30%] text-xl"
                   key={item.id}
                 >
                   {item.name}

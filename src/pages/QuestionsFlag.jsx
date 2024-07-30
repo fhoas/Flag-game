@@ -106,10 +106,10 @@ function QuestionsFlag() {
               </p>
               <p className="text-xl text-white">Time Remaining: {timer}s</p>
             </div>
-            <div className="text-5xl font-bold mb-8 mt-8 text-white">
+            <div className="text-5xl font-bold mb-8 mt-8 text-white text-center">
               {randomItem.name}
             </div>
-            <ul className="flex justify-center items-center gap-4 flex-wrap w-[60%]">
+            <ul className="flex justify-center items-center gap-4 flex-wrap w-[100%]">
               {shuffledItems.map((item) => (
                 <li
                   onClick={() => handleClick(item.name)}

@@ -51,14 +51,14 @@ const Landing = () => {
     >
       <div className="flex flex-col justify-center items-center min-h-screen">
         <h1
-          className={`text-7xl font-extrabold mb-10 text-white bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 bg-clip-text text-transparent ${buttonClass}`}
+          className={`text-3xl font-extrabold mb-10 text-white bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 bg-clip-text text-transparent ${buttonClass} sm:text-7xl`}
         >
           FLAG GAME
         </h1>
-        <p className={`text-xl text-white mb-5  ${buttonClass}`}>
+        <p className={`text-sm sm:text-xl text-white mb-5  ${buttonClass}`}>
           Test your knowledge of world flags and have fun!
         </p>
-        <div className="flex gap-4">
+        <div className="flex flex-col gap-4 lg:flex-row">
           <button
             onClick={handleClickCountry}
             className={`bg-[#8F00FF] hover:bg-[#7600CC] text-white font-bold py-2 rounded border-[1px] border-[#00000027] ${buttonClass} shadow-lg hover:shadow-xl w-[250px] transition duration-300`}

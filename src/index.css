@@ -35,7 +35,6 @@ body {
     opacity: 1;
 }
 
-/* Add this to your global CSS or a dedicated CSS module */
 
 h1 {
     position               : relative;
@@ -59,8 +58,6 @@ h1 span::before {
     right   : 0;
     bottom  : 0;
     border  : 2px solid rgba(0, 0, 0, 0.5);
-    /* Adjust border color and opacity */
     filter  : blur(2px);
-    /* Adjust blur intensity */
     z-index : -1;
 }
